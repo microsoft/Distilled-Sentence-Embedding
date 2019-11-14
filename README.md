@@ -7,8 +7,8 @@ DSE distills knowledge from a finetuned state-of-the-art transformer model (BERT
 
 
 ## Usage
-Follow the instructions below in order to run the training procedure of the Distilled Sentence Embedding (DSE) method. For all of the below python scripts you can 
-also run them with the -h run parameter to get more information regarding the run parameters they accept.
+Follow the instructions below in order to run the training procedure of the Distilled Sentence Embedding (DSE) method. The python scripts below can 
+be run with the -h parameter to get more information.
 
 ### 1. Install Requirements
 ```
@@ -22,7 +22,7 @@ python download_glue_data.py
 ```
 
 ### 3. Finetune BERT on a Specific Task
-Finetune a standard BERT model on a specific task (e.g. MRPC, MNLI, etc.). Below is an example for the MRPC dataset.
+Finetune a standard BERT model on a specific task (e.g., MRPC, MNLI, etc.). Below is an example for the MRPC dataset.
 ```
 python run_classifier.py \
 --gpu_id 0 \
@@ -42,12 +42,12 @@ python run_classifier.py \
 --no_parallel
 ```
 
-Note: To use the AllNLI dataset (a combination of the MNLI and SNLI datasets) with the given code, you can simply create a folder where the downloaded GLUE datasets are and 
+Note: For our code to work with the AllNLI dataset (a combination of the MNLI and SNLI datasets), you simply need to create a folder where the downloaded GLUE datasets are and 
 copy the MNLI and SNLI datasets into it.
 
 ### 4. Create the Logits from the Finetuned BERT
-Execute the following command to create the logits which will be used for distillation from the BERT model we finetuned. The run parameters match those from the previous step and 
-need to be adapted according to the directories and task used.
+Execute the following command to create the logits which will be used for the distillation training objective. Note that the bert_checkpoint_dir parameter 
+has to match the output_dir from the previous command.
 ```
 python run_distillation_logits_creator.py \
 --gpu_id 0 \
@@ -59,8 +59,7 @@ python run_distillation_logits_creator.py \
 ```
 
 ### 5. Train the DSE Model using the Finetuned BERT Logits
-Train the DSE model using the extracted logits. Again, the run parameters match those from the previous step and 
-need to be adapted according to the directories and task used.
+Train the DSE model using the extracted logits. Notice that the distillation_logits_path parameter needs to be chanced according to the task.
 ```
 python siamese_bert_train_runner.py \
 --gpu_id 0 \
