@@ -1,8 +1,8 @@
 # Scalable Attentive Sentence-Pair Modeling via Distilled Sentence Embedding (AAAI 2020) - PyTorch Implementation
-This repository contains a PyTorch implementation of the Distilled Sentence Embedding (DSE) method, presented in this [paper](https://arxiv.org/abs/1908.05161). The code is published to allow reproduction of the model.
+This repository contains a PyTorch implementation of the Distilled Sentence Embedding (DSE) model, presented in this [paper](https://arxiv.org/abs/1908.05161). The code is published to allow reproduction of the model.
 
 ## Method Description
-DSE distills knowledge from a finetuned state-of-the-art transformer model (BERT) to to create high quality sentence embeddings. For a complete description, as well as 
+DSE distills knowledge from a finetuned state-of-the-art transformer model (BERT) to create high quality sentence embeddings. For a complete description, as well as 
  implementation details and hyperparameters, please refer to the paper. 
 
 
