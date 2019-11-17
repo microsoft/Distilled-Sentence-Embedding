@@ -721,7 +721,7 @@ def load_or_convert_examples_to_separate_features(load_examples_fn, label_list, 
 
     examples = load_examples_fn()
     features = convert_examples_to_separate_features(examples, label_list, max_seq_length, tokenizer, output_mode)
-    if cache:
+    if cache and features_path != "":
         with open(features_path, "wb") as writer:
             pickle.dump(features, writer)
     return features

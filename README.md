@@ -1,16 +1,15 @@
-# Scalable Attentive Sentence-Pair Modeling via Distilled Sentence Embedding (AAAI 2020) - PyTorch Implementation
-This repository contains a PyTorch implementation of the Distilled Sentence Embedding (DSE) model, presented in this [paper](https://arxiv.org/abs/1908.05161). The code is published to allow reproduction of the model.
+# Scalable Attentive Sentence-Pair Modeling via Distilled Sentence Embedding
+PyTorch implementation for the [Scalable Attentive Sentence-Pair Modeling via Distilled Sentence Embedding](https://arxiv.org/abs/1908.05161) (AAAI 2020) paper.
 
 ## Method Description
-DSE distills knowledge from a finetuned state-of-the-art transformer model (BERT) to create high quality sentence embeddings. For a complete description, as well as 
- implementation details and hyperparameters, please refer to the paper. 
+Distilled Sentence Embedding (DSE) distills knowledge from a finetuned state-of-the-art transformer model (BERT) to to create high quality sentence embeddings. For a complete description, as well as implementation details and hyperparameters, please refer to the paper. 
 
 
 ## Usage
-Follow the instructions below in order to run the training procedure of the Distilled Sentence Embedding (DSE) method. The python scripts below can 
-be run with the -h parameter to get more information.
+Follow the instructions below in order to run the training procedure of the Distilled Sentence Embedding (DSE) method. The python scripts below can be run with the -h parameter to get more information.
 
 ### 1. Install Requirements
+Tested with Python 3.6+.
 ```
 pip install -r requirements.txt
 ```
@@ -24,8 +23,7 @@ python download_glue_data.py
 ### 3. Finetune BERT on a Specific Task
 Finetune a standard BERT model on a specific task (e.g., MRPC, MNLI, etc.). Below is an example for the MRPC dataset.
 ```
-python run_classifier.py \
---gpu_id 0 \
+python finetune_bert.py \
 --bert_model bert-large-uncased-whole-word-masking \
 --task_name mrpc \
 --do_train \
@@ -42,42 +40,38 @@ python run_classifier.py \
 --no_parallel
 ```
 
-Note: For our code to work with the AllNLI dataset (a combination of the MNLI and SNLI datasets), you simply need to create a folder where the downloaded GLUE datasets are and 
-copy the MNLI and SNLI datasets into it.
+Note: For our code to work with the AllNLI dataset (a combination of the MNLI and SNLI datasets), you simply need to create a folder where the downloaded GLUE datasets are and copy the MNLI and SNLI datasets into it.
 
-### 4. Create the Logits from the Finetuned BERT
-Execute the following command to create the logits which will be used for the distillation training objective. Note that the bert_checkpoint_dir parameter 
-has to match the output_dir from the previous command.
+### 4. Create Logits for Distillation from the Finetuned BERT
+Execute the following command to create the logits which will be used for the distillation training objective. Note that the bert_checkpoint_dir parameter has to match the output_dir from the previous command.
 ```
 python run_distillation_logits_creator.py \
---gpu_id 0 \
 --task_name mrpc \
 --data_dir glue_data/MRPC \
 --do_lower_case \
---train_features_path data/MRPC/train_bert-large-uncased-whole-word-masking_128_mrpc \
+--train_features_path glue_data/MRPC/train_bert-large-uncased-whole-word-masking_128_mrpc \
 --bert_checkpoint_dir outputs/large_uncased_finetuned_mrpc
 ```
 
 ### 5. Train the DSE Model using the Finetuned BERT Logits
-Train the DSE model using the extracted logits. Notice that the distillation_logits_path parameter needs to be chanced according to the task.
+Train the DSE model using the extracted logits. Notice that the distillation_logits_path parameter needs to be changed according to the task.
 ```
-python siamese_bert_train_runner.py \
---gpu_id 0 \
+python dse_train_runner.py \
 --task_name mrpc \
 --data_dir glue_data/MRPC \
 --distillation_logits_path outputs/logits/large_uncased_finetuned_mrpc_logits.pt \
 --do_lower_case \
 --file_log \
+--epochs 8 \
 --store_checkpoints
 ```
 
 Note: To store checkpoints for the model make sure that the --store_checkpoints flag is passed as shown above.
 
-### 6. Loading of the Trained DSE Model
-During training checkpoints of the Trainer object which contains the model will be saved. You can load these checkpoints and extract from the the model 
-itself.
+### 6. Loading the Trained DSE Model
+During training, checkpoints of the Trainer object which contains the model will be saved. You can load these checkpoints and extract the model state dictionary from them. You can then load the state into a created DSESiameseClassifier model.
 
-## Acknowledgements
+## Acknowledgments
 - We based our implementation on the BERT pretrained model from the [HuggingFace transformers repository](https://github.com/huggingface/transformers).
 
 - The script for downloading the GLUE datasets is taken from [here](https://github.com/nyu-mll/GLUE-baselines/blob/master/download_glue_data.py).
@@ -92,18 +86,3 @@ If you find this code useful, please cite the following paper:
   year={2019}
 }
 ```
-
-
-## Contributing
-
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
-
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.

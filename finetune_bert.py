@@ -423,8 +423,6 @@ def main():
     nb_tr_steps = 0
     tr_loss = 0
 
-    output_dir = args.output_dir
-
     if args.do_train:
         # Prepare data loader
         train_examples = processor.get_train_examples(args.data_dir)
@@ -500,7 +498,6 @@ def main():
 
         model.train()
         for epoch in trange(int(args.num_train_epochs), desc="Epoch", disable=args.local_rank not in [-1, 0]):
-            output_dir = f"{args.output_dir}_epoch_{epoch}"
             tr_loss = 0
             nb_tr_examples, nb_tr_steps = 0, 0
             for step, batch in enumerate(tqdm(train_dataloader, desc="Iteration", disable=args.local_rank not in [-1, 0])):
@@ -545,7 +542,7 @@ def main():
             if epoch < int(args.num_train_epochs) - 1:
                 with torch.no_grad():
                     run_evaluation(all_label_ids, args, device, global_step, label_list, logger, model, num_labels, output_mode, processor, task_name,
-                                   tokenizer, tr_loss, output_dir, save_checkpoint=args.save_checkpoint_every_epoch, write_to_file=False)
+                                   tokenizer, tr_loss, args.output_dir, save_checkpoint=args.save_checkpoint_every_epoch, write_to_file=False)
 
     if not args.do_train:
         model = BertForSequenceClassification.from_pretrained(args.bert_model, num_labels=num_labels)
@@ -553,7 +550,7 @@ def main():
     model.to(device)
     with torch.no_grad():
         run_evaluation(all_label_ids, args, device, global_step, label_list, logger, model, num_labels, output_mode, processor, task_name, tokenizer,
-                       tr_loss, output_dir, save_checkpoint=True, write_to_file=True)
+                       tr_loss, args.output_dir, save_checkpoint=True, write_to_file=True)
 
 
 if __name__ == "__main__":
