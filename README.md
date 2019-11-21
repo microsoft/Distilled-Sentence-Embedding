@@ -63,13 +63,25 @@ python dse_train_runner.py \
 --do_lower_case \
 --file_log \
 --epochs 8 \
---store_checkpoints
+--store_checkpoints \
+--fc_dims 512 1
 ```
 
-Note: To store checkpoints for the model make sure that the --store_checkpoints flag is passed as shown above.
+__Important Notes:__ 
+- To store checkpoints for the model make sure that the --store_checkpoints flag is passed as shown above.
+- The fc_dims parameter accepts a list of space separated integers, and is the dimensions of the fully connected classifier that is put on top of the extracted features from the Siamese DSE model. The output dimension (in this case 1) needs to be changed according to the wanted output dimensionality. For example, for the MNLI dataset the fc_dims parameter should be 512 3 since it is a 3 class classification task.
 
 ### 6. Loading the Trained DSE Model
-During training, checkpoints of the Trainer object which contains the model will be saved. You can load these checkpoints and extract the model state dictionary from them. You can then load the state into a created DSESiameseClassifier model.
+During training, checkpoints of the Trainer object which contains the model will be saved. You can load these checkpoints and extract the model state dictionary from them. Then you can load the state into a created DSESiameseClassifier model. The load_dse_checkpoint_example.py script contains an example of how to do that.
+
+To load the model trained with the example commands above  you can use:
+```
+python load_dse_checkpoint_example.py \
+--task_name mrpc \
+--trainer_checkpoint <path_to_saved_checkpoint> \
+--do_lower_case \
+--fc_dims 512 1
+```
 
 ## Acknowledgments
 - We based our implementation on the BERT pretrained model from the [HuggingFace transformers repository](https://github.com/huggingface/transformers).

@@ -13,11 +13,11 @@ class DSEModelFactory:
         if freeze_bert:
             module_utils.set_requires_grad(bert_for_seq_classification, False)
 
-        bert_for_seq_embedding = DSEModel(bert_for_seq_classification,
-                                          additional_embedding_layer_size=additional_embedding_layer_size,
-                                          pooler_type=pooler_type,
-                                          pooler_num_top_hidden_layers=pooler_num_top_hidden_layers)
+        dse_model = DSEModel(bert_for_seq_classification,
+                             additional_embedding_layer_size=additional_embedding_layer_size,
+                             pooler_type=pooler_type,
+                             pooler_num_top_hidden_layers=pooler_num_top_hidden_layers)
 
-        siamese_head = CombineSiameseHead(bert_for_seq_embedding.output_size, fc_dims=fc_dims, siamese_head_type=siamese_head_type)
-        model = DSESiameseClassifier(bert_for_seq_embedding, siamese_head)
+        siamese_head = CombineSiameseHead(dse_model.output_size, fc_dims=fc_dims, siamese_head_type=siamese_head_type)
+        model = DSESiameseClassifier(dse_model, siamese_head)
         return model
