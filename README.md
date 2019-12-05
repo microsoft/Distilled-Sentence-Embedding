@@ -2,7 +2,7 @@
 PyTorch implementation for the [Scalable Attentive Sentence-Pair Modeling via Distilled Sentence Embedding](https://arxiv.org/abs/1908.05161) (AAAI 2020) paper.
 
 ## Method Description
-Distilled Sentence Embedding (DSE) distills knowledge from a finetuned state-of-the-art transformer model (BERT) to to create high quality sentence embeddings. For a complete description, as well as implementation details and hyperparameters, please refer to the paper. 
+Distilled Sentence Embedding (DSE) distills knowledge from a finetuned state-of-the-art transformer model (BERT) to create high quality sentence embeddings. For a complete description, as well as implementation details and hyperparameters, please refer to the paper. 
 
 
 ## Usage
