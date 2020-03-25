@@ -94,7 +94,7 @@ If you find this code useful, please cite the following paper:
 @article{barkan2019scalable,
   title={Scalable Attentive Sentence-Pair Modeling via Distilled Sentence Embedding},
   author={Barkan, Oren and Razin, Noam and Malkiel, Itzik and Katz, Ori and Caciularu, Avi and Koenigstein, Noam},
-  journal={arXiv preprint arXiv:1908.05161},
-  year={2019}
+  journal={AAAI},
+  year={2020}
 }
 ```
