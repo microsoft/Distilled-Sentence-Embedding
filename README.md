@@ -91,7 +91,7 @@ python load_dse_checkpoint_example.py \
 ## Reference
 If you find this code useful, please cite the following paper:
 ```
-@article{barkan2019scalable,
+@article{barkan2020scalable,
   title={Scalable Attentive Sentence-Pair Modeling via Distilled Sentence Embedding},
   author={Barkan, Oren and Razin, Noam and Malkiel, Itzik and Katz, Ori and Caciularu, Avi and Koenigstein, Noam},
   journal={AAAI},
