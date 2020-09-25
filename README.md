@@ -88,13 +88,13 @@ python load_dse_checkpoint_example.py \
 
 - The script for downloading the GLUE datasets is taken from [here](https://github.com/nyu-mll/GLUE-baselines/blob/master/download_glue_data.py).
 
-## Reference
+## Citation
 If you find this code useful, please cite the following paper:
 ```
-@article{barkan2020scalable,
+@inproceedings{barkan2020scalable,
   title={Scalable Attentive Sentence-Pair Modeling via Distilled Sentence Embedding},
   author={Barkan, Oren and Razin, Noam and Malkiel, Itzik and Katz, Ori and Caciularu, Avi and Koenigstein, Noam},
-  journal={AAAI},
+  booktitle={AAAI Conference on Artificial Intelligence (AAAI)},
   year={2020}
 }
 ```
