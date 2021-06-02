@@ -21,4 +21,4 @@ six==1.13.0
 torch==1.1.0
 torchvision==0.3.0
 tqdm==4.38.0
-urllib3==1.25.7
+urllib3==1.26.5
